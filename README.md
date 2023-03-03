@@ -12,8 +12,8 @@
 ### Frontend
 <ul>
 <li>React</li>
-<li>Redux</li>
-<li>ChakraUI</li>
+<li>CSS</li>
+<li>ES6</li>
 </ul>
 
 ## Getting Started
