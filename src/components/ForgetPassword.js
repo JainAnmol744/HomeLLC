@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./Style.css"
@@ -8,6 +8,8 @@ const ForgetPassword = () => {
 
     const [passShow, setPassShow] = useState(false);
     const [cpassShow, setCPassShow] = useState(false);
+
+    const history = useNavigate();
 
     const [inpval, setInpval] = useState({
         fname: "",
@@ -77,7 +79,7 @@ const ForgetPassword = () => {
            
 
 
-            const data = await fetch("/register", {
+            const data = await fetch("http://localhost:5001/api/auth/resetpassword", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -88,12 +90,13 @@ const ForgetPassword = () => {
             });
 
             const res = await data.json();
-            // console.log(res.status);
+            
 
-            if (res.status === 201) {
+            if (res.success) {
                 toast.success("Password Updated Successfully done 😃!", {
                     position: "top-center"
                 });
+                history('/');
                 setInpval({ ...inpval, fname: "", lname: "", email: "", password: "", cpassword: "" });
             }else{
                 toast.error("Invalid Credentials", {
@@ -114,11 +117,11 @@ const ForgetPassword = () => {
                     <form>
                         <div className="form_input">
                             <label htmlFor="fname">First Name</label>
-                            <input type="text" onChange={setVal} value={inpval.fname} name="fname" id="fname" placeholder='Enter Your Name' />
+                            <input type="text" onChange={setVal} value={inpval.fname} name="fname" id="fname" placeholder='Enter Your First Name' />
                         </div>
                         <div className="form_input">
-                            <label htmlFor="fname">Last Name</label>
-                            <input type="text" onChange={setVal} value={inpval.fname} name="lname" id="lname" placeholder='Enter Your Name' />
+                            <label htmlFor="lname">Last Name</label>
+                            <input type="text" onChange={setVal} value={inpval.lname} name="lname" id="lname" placeholder='Enter Your Last Name' />
                         </div>
                         <div className="form_input">
                             <label htmlFor="email">Email</label>

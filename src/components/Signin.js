@@ -50,7 +50,7 @@ const Signin = ({userlogin}) => {
             });
 
             const res = await data.json();
-             console.log(res);
+            //  console.log(res);
 
             if(res.success){
                 localStorage.setItem("usersdatatoken",res.authtoken);

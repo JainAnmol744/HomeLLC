@@ -9,8 +9,8 @@ var fetchuser = require('../middleware/fetchuser');
 
 //ROUTE 1: For creating a user
 router.post('/createuser', [
-    body('fname').isLength({ min: 4 }),
-    body('lname').isLength({ min: 4 }),
+    body('fname').isLength({ min: 2 }),
+    body('lname').isLength({ min: 2 }),
     body('email').isEmail(),
     body('password').isLength({ min: 5 }),
 ], async (req, res)=>{
@@ -40,7 +40,7 @@ router.post('/createuser', [
       }
       const authtoken = jwt.sign(data, JWT_SECRET);
       success = true;
-      res.json({success,authtoken})
+      res.status(201).json({success,authtoken})
 
 
     } catch (error){
@@ -90,11 +90,13 @@ router.post('/login', [
 
 //ROUTE : Reset Password using PUT
 router.put('/resetpassword',(req,res)=>{
+  let success = false;
   User.find({email:req.body.email})
   .exec()
   .then(result=>{
    if(result.length<1){
-    return res.status(401).json({
+    success = false;
+    return res.status(401).json({success,
       message:"Invalid cridential"
     })
     }
@@ -102,7 +104,8 @@ router.put('/resetpassword',(req,res)=>{
       if(result[0].fname===req.body.fname && result[0].lname===req.body.lname){
         bcrypt.hash(req.body.password,10,(err,hash)=>{
           if(err){
-            return res.status(401).json({
+            success = false;
+            return res.status(401).json({success,
               message:"please enter strong password",
             })
           }else{
@@ -114,13 +117,15 @@ router.put('/resetpassword',(req,res)=>{
                 console.log("updation success");
               }
             })
-            res.status(200).json({
+            success = true;
+            res.status(200).json({success,
               message:"password update success"
             })
           }
         })
       }else{
-       return res.status(401).json({
+        success = false;
+       return res.status(401).json({success,
           message:"invalid cridantial"
         })
       }
@@ -128,7 +133,8 @@ router.put('/resetpassword',(req,res)=>{
    }
   )
   .catch(err=>{
-   res.status(401).json({
+    success = false;
+   res.status(401).json({success,
     message:"server problem"
    })
   })

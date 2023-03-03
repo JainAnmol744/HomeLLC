@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./Style.css"
@@ -9,6 +9,7 @@ const Signup = () => {
     const [passShow, setPassShow] = useState(false);
     const [cpassShow, setCPassShow] = useState(false);
 
+    const history = useNavigate();
     const [inpval, setInpval] = useState({
         fname: "",
         lname: "",
@@ -85,7 +86,6 @@ const Signup = () => {
                     fname, lname, email, password
                 })
             });
-            console.log(inpval);
             const res = await data.json();
              console.log(res.success);
 
@@ -93,6 +93,7 @@ const Signup = () => {
                 toast.success("Signup Successfully done 😃!", {
                     position: "top-center"
                 });
+                history('/');
                 setInpval({ ...inpval, fname: "", lname: "", email: "", password: "", cpassword: "" });
             }
         }
