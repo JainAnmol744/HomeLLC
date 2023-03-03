@@ -5,9 +5,10 @@ import { FaUserAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const Home = ({ user }) => {
-  const  firstName = user.authtoken;
+  const  email  = user.email;
   // const lastName = user.lname;
-  const username = firstName;
+  const username = email;
+
 const history = useNavigate();
 
 const handleclick = ()=>{

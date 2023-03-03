@@ -88,10 +88,51 @@ router.post('/login', [
 }
   });
 
-
-  
 //ROUTE : Reset Password using PUT
-router.put('/resetpassword',)
+router.put('/resetpassword',(req,res)=>{
+  User.find({email:req.body.email})
+  .exec()
+  .then(result=>{
+   if(result.length<1){
+    return res.status(401).json({
+      message:"Invalid cridential"
+    })
+    }
+    if(result.length>0){
+      if(result[0].fname===req.body.fname && result[0].lname===req.body.lname){
+        bcrypt.hash(req.body.password,10,(err,hash)=>{
+          if(err){
+            return res.status(401).json({
+              message:"please enter strong password",
+            })
+          }else{
+            User.findByIdAndUpdate(result[0]._id,{password:hash},(err,docs)=>{
+              if(err){
+                console.log("updation failed");
+              }
+              if(!err){
+                console.log("updation success");
+              }
+            })
+            res.status(200).json({
+              message:"password update success"
+            })
+          }
+        })
+      }else{
+       return res.status(401).json({
+          message:"invalid cridantial"
+        })
+      }
+    }
+   }
+  )
+  .catch(err=>{
+   res.status(401).json({
+    message:"server problem"
+   })
+  })
+})
 
 module.exports = router;
 

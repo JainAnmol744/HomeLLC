@@ -78,7 +78,7 @@ const ForgetPassword = () => {
 
 
             const data = await fetch("/register", {
-                method: "POST",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
