@@ -11,7 +11,7 @@ const Home = ({ user }) => {
 const history = useNavigate();
 
 const handleclick = ()=>{
-    // localStorage.removeItem()
+  localStorage.removeItem('usersdatatoken')
     history("/");
 }
 

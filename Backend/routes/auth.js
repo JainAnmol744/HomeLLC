@@ -87,18 +87,12 @@ router.post('/login', [
   res.status(500).send("Some Error occured");
 }
   });
+
+
   
-//ROUTE 3: Get loggedin user details using POST
-router.post('/getuser',fetchuser, async (req, res)=>{
-try{
-  const userId= req.user.id;
-    const user = await User.findById(userId).select("-password");
-    res.send(user);
-}
-catch (error){
-  console.error(error.message);
-  res.status(500).send("Some Error occured");
-}
-})
+//ROUTE : Reset Password using PUT
+router.put('/resetpassword',)
+
 module.exports = router;
+
 

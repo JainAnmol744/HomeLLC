@@ -55,7 +55,8 @@ const Signin = ({userlogin}) => {
             if(res.success){
                 localStorage.setItem("usersdatatoken",res.authtoken);
                 history("/home")
-                userlogin(res.result);
+                
+                userlogin(res.authtoken);
             }else{
                 toast.error("Invalid Credentials", {
                     position: "top-center"
